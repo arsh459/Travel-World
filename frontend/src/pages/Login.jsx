@@ -13,7 +13,7 @@ import {BASE_URL} from '../utils/config'
 
 
 const Login = () => {
-  const [credentials, setCredentials]=useState({
+  const [credential, setCredentials]=useState({
     email:undefined,
     password:undefined
 })
@@ -33,13 +33,16 @@ const handleClick= async e=>{
         "content-type":"application/json"
       },
       credentials:'include',
-      body:JSON.stringify(credentials)
+      body:JSON.stringify(credential)
     })
     const result = await res.json()
-    console.log(result.data)
+    // const cookieHeaderValue =await res.headers.get('Set-Cookie')
+    // console.log(cookieHeaderValue)
+    localStorage.setItem('token', JSON.stringify(result.token))
+    // console.log(result)
     if(!res.ok) alert(result.message)
     if(res.ok) alert(result.message)
-    dispatch({type:"LOGIN_SUCCESS", payload:result.data})
+    dispatch({type:"LOGIN_SUCCESS", payload:{user:result.data, token:result.token}})
   navigate("/")
 } catch (err) {
     dispatch({type:"LOGIN_FAILURE", payload:err.message})

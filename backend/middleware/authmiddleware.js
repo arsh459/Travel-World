@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const Authmiddleware=(req, res, next)=>{
     const token=req.headers.authorization?.split(" ")[1]
+    console.log(token)
     if(!token){
         return res.send("please pass the token")
     }
